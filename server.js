@@ -6,6 +6,13 @@ const server = http.createServer()
 const wss = new WebSocketServer({ port: 8080 })
 const clients = new Map()
 
+server.on('request', (req, res) => {
+  if (req.method === 'GET' && req.url === '/ping') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.end('OK')
+  }
+})
+
 wss.on('connection', (ws) => {
   const clientId = uuidv4()
   clients.set(clientId, ws)
