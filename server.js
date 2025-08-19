@@ -2,16 +2,18 @@ import { WebSocketServer } from 'ws'
 import { v4 as uuidv4 } from 'uuid'
 import http from 'http'
 
-const server = http.createServer()
-const wss = new WebSocketServer({ port: 8080 })
-const clients = new Map()
-
-server.on('request', (req, res) => {
+const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/ping') {
     res.writeHead(200, { 'Content-Type': 'text/plain' })
     res.end('OK')
+  } else {
+    res.writeHead(404)
+    res.end()
   }
 })
+
+const wss = new WebSocketServer({ port: 8080 })
+const clients = new Map()
 
 wss.on('connection', (ws) => {
   const clientId = uuidv4()
