@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
   }
 })
 
-const wss = new WebSocketServer({ port: 8080 })
+const wss = new WebSocketServer({ server })
 const clients = new Map()
 
 wss.on('connection', (ws) => {
